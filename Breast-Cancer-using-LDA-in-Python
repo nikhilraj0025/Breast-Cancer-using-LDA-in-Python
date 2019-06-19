@@ -1,0 +1,38 @@
+import pandas as pd
+bc=pd.read_csv(r"C:\Users\AKHIL\Desktop\R csv\bcan.csv")
+print(bc.head())
+bc.shape
+bc= bc.iloc[:,2:]
+bc.head()
+
+################################## one hot encoding #######################################################################
+
+bc.Class.replace({"benign":0,"malignant":1},inplace=True)
+bc.Class=bc.Class.astype('category')
+bc.head()
+bc.tail()
+
+bc=bc.dropna()
+bc.shape
+
+###############################################################################################################################
+
+bc_x=bc.iloc[:,0:9] ############### storing the independent variable in x ###############
+bc_x.head()
+bc_y=bc.iloc[:,-1]################ storing dependent variable in y #####################
+print(bc_x.head())
+bc_y.head()
+
+c=bc.groupby("Class").mean()
+print(c)
+
+import sklearn
+from sklearn.model_selection import train_test_split
+bc_x_train,bc_x_test,bc_y_train,bc_y_test=train_test_split(bc_x,bc_y,test_size=.2,random_state=501)
+
+lda.fit_transform(bc_x_train,bc_y_train)
+pred_lda=lda.predict(bc_x_test)
+
+
+from sklearn.metrics import confusion_matrix
+print(confusion_matrix(pred_lda,bc_y_test))
